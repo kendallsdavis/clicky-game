@@ -5,12 +5,14 @@ import CatCard from "./components/catcards";
 import Wrapper from "./components/wrapper/index";
 import Title from "./components/title";
 import Score from "./components/score";
+import Instructions from "./components/instructions";
+import Result from "./components/result";
 
 class App extends Component {
   // Setting this.state.cats to the cats json array
   state = {
     cats: cats,
-    score: 1,
+    score: 0,
     guessed: []
   };
 
@@ -28,6 +30,12 @@ class App extends Component {
         })
     }    
 
+    reset = () => {
+      this.setState({
+        guessed:[],
+        score: 0
+        })
+    }
 
 // this function will be called each time a cat image is clicked. The click event passes the id of the cat selected 
 // into the function
@@ -38,10 +46,8 @@ checkAndShuffle = (id) => {
     console.log(id)
     console.log(this.state)
     console.log("Game Over!");
-    this.setState({
-    guessed:[],
-    score: 1
-    })
+    this.reset();
+    
     this.shuffleFunction();
   } else {
     // if it hasn't, push the photo id into the array of guesses and shuffle the cats
@@ -50,6 +56,12 @@ checkAndShuffle = (id) => {
   this.setState({
     score: this.state.score+1
   })
+  // if the guess count has reached 9, alert user has won, reshuffle, and reset
+  if(this.state.score === 9){
+    console.log("You Win!");
+    this.reset()
+    this.shuffleFunction()
+  }
   console.log(this.state)
 }
 };
@@ -60,7 +72,8 @@ checkAndShuffle = (id) => {
 render() {
   return (
     <Wrapper>
-      <Title>Fat Cats</Title>
+      <Title>Fat Cat Shuffle</Title>
+      <Instructions></Instructions>
       <Score 
       score={this.state.score}
       />
