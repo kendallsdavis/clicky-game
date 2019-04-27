@@ -1,42 +1,54 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from "react";
 import './App.css';
-
-const name = "Ahmed";
-const num1 = 1;
-const num2 = 2;
-
-// function App() {
-//   return(
-//     <div className="card">
-//   <img src="..." class="card-img-top" alt="..."></img>
-//   )
-// }
+import cats from "./cats.json";
+import CatCard from "./components/catcards";
+import Wrapper from "./components/wrapper/index";
+import Title from "./components/title";
+import Score from "./components/score";
 
 
-function App() {
-  return ( 
-    <div className="card">hello</div>
+class App extends Component {
+  // Setting this.state.cats to the cats json array
+  state = {
+    cats
+  };
 
-    // <div className="main-container">
-    //   <div className="container">
-    //     <div className="jumbotron">
-    //       {/* JavaScript expressions can be escaped inside of curly braces */}
 
-    //       <h2>My name is {name}. But you can call me...</h2>
-    //       <h1>The JSX Boss!</h1>
-    //       <hr />
-    //       <h2>I can do math: {num1 + num2}.</h2>
-    //       <h2>
-    //         I can generate random numbers:
-    //         {Math.floor(Math.random() * 10) + 1},{Math.floor(Math.random() * 10) + 1},
-    //         {Math.floor(Math.random() * 10) + 1}.
-    //       </h2>
-    //       <h2>I can even reverse my name: {name.split("").reverse()}</h2>
-    //     </div>
-    //   </div>
-    // </div>
-  )
+shuffleCats = () => {
+  let reshuffle = this.state.cats
+  for (let i = reshuffle.length - 1; i > 0; i--) {
+        const randomIndex = Math.floor(Math.random() * (i + 1));
+        var itemAtIndex = reshuffle[randomIndex];         
+        reshuffle[randomIndex] = reshuffle[i]; 
+        reshuffle[i] = itemAtIndex;
+      }
+  this.setState({
+    cats: reshuffle
+  })
+};
+
+
+
+// Map over this.state.cats and render a CatCard component for each cat object
+render() {
+  return (
+    <Wrapper>
+      <Title>Fat Cats</Title>
+      {this.state.cats.map(cat => (
+        <CatCard
+          shuffleCats={this.shuffleCats}
+          id={cat.id}
+          key={cat.id}
+          name={cat.name}
+          image={cat.image}
+          clicked={0}
+        />
+      ))}
+    </Wrapper>
+  );
 }
+}
+
+
 
 export default App;
