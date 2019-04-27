@@ -10,11 +10,13 @@ import Score from "./components/score";
 class App extends Component {
   // Setting this.state.cats to the cats json array
   state = {
-    cats
+    cats: cats,
+    score: 0,
+    guessed: []
   };
 
-
-shuffleCats = () => {
+// this function will be called each time a cat image is clicked
+shuffleCats = (id) => {
   let reshuffle = this.state.cats
   for (let i = reshuffle.length - 1; i > 0; i--) {
         const randomIndex = Math.floor(Math.random() * (i + 1));
@@ -22,10 +24,14 @@ shuffleCats = () => {
         reshuffle[randomIndex] = reshuffle[i]; 
         reshuffle[i] = itemAtIndex;
       }
+      console.log(id)
+      this.state.guessed.push(id)
+      console.log(this.state.guessed)
   this.setState({
     cats: reshuffle
   })
 };
+
 
 
 

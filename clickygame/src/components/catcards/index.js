@@ -4,8 +4,8 @@ import "./style.css";
 function CatCard(props) {
   return (
     <div className="card">
-      <div className="img-container" onClick={() => props.shuffleCats()}>
-        <img alt={props.name} src={props.image} />
+      <div className="img-container" onClick={() => props.shuffleCats(props.name)}>
+        <img alt={props.name} id={props.name} src={props.image} />
       </div>
     </div>
   );
